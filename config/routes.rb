@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :messages, only: [:create] # Create new message in a conversation
 
   # User Route
-  post 'auth/login', to: 'auth#login'
+  post 'login', to: 'auth#login'
   post 'signup', to: 'users#create'
   get 'me', to: 'users#profile'
   resources :users, only: [:create, :show, :update, :destroy, :index]

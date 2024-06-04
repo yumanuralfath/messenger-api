@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  resources :conversations, only: [:index, :show]
+
+  # Conversation Route and Chat
+  resources :conversations do
+    resources :messages, only: [:index] # Get all messages in a conversation
+  end
+  resources :messages, only: [:create] # Create new message in a conversation
 
   # User Route
   post 'auth/login', to: 'auth#login'

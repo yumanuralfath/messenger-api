@@ -25,7 +25,7 @@ class ConversationsController < ApplicationController
       id: conversation.id,
       with_user: {
         id: conversation.user1_id == current_user.id ? conversation.user2.id : conversation.user1.id,
-        name: conversation.user1_id == current_user.id ? conversation.user2.username : conversation.user1.username,
+        name: conversation.user1_id == current_user.id ? conversation.user2.name : conversation.user1.name,
         photo_url: conversation.user1_id == current_user.id ? conversation.user2.photo_url : conversation.user1.photo_url
       },
       last_message: format_message(conversation.chat_messages.last),
@@ -40,7 +40,7 @@ class ConversationsController < ApplicationController
       id: message.id,
       sender: {
         id: message.sender.id,
-        name: message.sender.username
+        name: message.sender.name
       },
       sent_at: message.created_at
     }

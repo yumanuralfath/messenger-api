@@ -1,5 +1,5 @@
 module RequestSpecHelper
-  # Parse JSON response to ruby hash
+  # Parse JSON response to Ruby hash
   def response_body
     json_response = JSON.parse(response.body, symbolize_names: true)
     if json_response.is_a?(Array)
@@ -9,10 +9,12 @@ module RequestSpecHelper
     end
   end
 
+  # Extract 'data' from JSON response
   def response_data
-    response_body[:data]
+    response_body[:data] if response_body.is_a?(Hash)
   end
 
+  # Validate response status and JSON type
   def expect_response(status, json = nil)
     begin
       expect(response).to have_http_status(status)

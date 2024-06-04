@@ -9,5 +9,8 @@ class ApplicationController < ActionController::API
 
   def current_user
     @current_user ||= AuthorizeApiRequest.new(request.headers).call[:user]
+    @current_user ||= User.find(params[:user_id]) if params[:user_id]
+    @current_user&.include_conversations
+    @current_user
   end
 end

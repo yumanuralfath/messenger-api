@@ -13,4 +13,10 @@ class User < ApplicationRecord
     conversation ||= Conversation.create(user1: self, user2: other_user)
     conversation
   end
+
+  # function to include conversation
+  def include_conversations
+    self.conversations_as_user1.includes(:chat_messages).each { |conversation| conversation.chat_messages }
+    self.conversations_as_user2.includes(:chat_messages).each { |conversation| conversation.chat_messages }
+  end
 end

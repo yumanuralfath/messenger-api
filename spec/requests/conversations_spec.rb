@@ -23,39 +23,40 @@ RSpec.describe 'Conversations API', type: :request do
     context 'when user have conversations' do
       # TODOS: Populate database with conversation of current user
 
-      before { get '/conversations', params: {}, headers: dimas_headers }
+      let!(:other_user) { create(:user) }
+      let!(:conversations) { create_list(:conversation, 5, user1: dimas, user2: other_user) }
+
+      before do
+        get '/conversations', params: {}, headers: dimas_headers
+      end
 
       it 'returns list conversations of current user' do
         # Note `response_data` is a custom helper
         # to get data from parsed JSON responses in spec/support/request_spec_helper.rb
 
-        expect(response_data).not_to be_empty
-        expect(response_data.size).to eq(5)
+        expect(response_body).not_to be_empty
+        expect(response_body.size).to eq(5)
       end
 
       it 'returns status code 200 with correct response' do
-        expect_response(
-          :ok,
-          data: [
-            {
-              id: Integer,
-              with_user: {
-                id: Integer,
-                name: String,
-                photo_url: String
-              },
-              last_message: {
-                id: Integer,
-                sender: {
-                  id: Integer,
-                  name: String
-                },
-                sent_at: String
-              },
-              unread_count: Integer
-            }
-          ]
-        )
+        expect_response(:ok)
+        expect(response_body).to all(match(
+          id: a_kind_of(Integer),
+          with_user: a_hash_including(
+            id: a_kind_of(Integer),
+            name: a_kind_of(String),
+            photo_url: a_kind_of(String)
+          ),
+          last_message: a_hash_including(
+            id: a_kind_of(Integer),
+            sender: a_hash_including(
+              id: a_kind_of(Integer),
+              name: a_kind_of(String)
+            ),
+            sent_at: a_kind_of(String)
+          ),
+          unread_count: a_kind_of(Integer)
+        ))
       end
     end
   end

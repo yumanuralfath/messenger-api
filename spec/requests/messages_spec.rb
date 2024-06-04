@@ -61,7 +61,7 @@ RSpec.describe 'Messages API', type: :request do
     end
 
     context 'when request attributes are valid' do
-      before { post "/messages", params: valid_attributes, headers: dimas_headers}
+      before { post "/messages", params: valid_attributes.to_json, headers: dimas_headers, as: :json }
 
       it 'returns status code 201 (created) and create conversation automatically' do
         expect_response(
@@ -88,7 +88,7 @@ RSpec.describe 'Messages API', type: :request do
     end
 
     context 'when create message into existing conversation' do
-      before { post "/messages", params: valid_attributes, headers: dimas_headers}
+      before { post "/messages", params: valid_attributes.to_json, headers: dimas_headers, as: :json}
 
       it 'returns status code 201 (created) and create conversation automatically' do
         expect_response(
@@ -115,7 +115,7 @@ RSpec.describe 'Messages API', type: :request do
     end
 
     context 'when an invalid request' do
-      before { post "/messages", params: invalid_attributes, headers: dimas_headers}
+      before { post "/messages", params: invalid_attributes.to_json, headers: dimas_headers, as: :json}
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)

@@ -10,5 +10,6 @@ Rails.application.routes.draw do
   # User Route
   post 'auth/login', to: 'auth#login'
   post 'signup', to: 'users#create'
+  get 'me', to: 'users#profile'
   resources :users, only: [:create, :show, :update, :destroy, :index]
 end

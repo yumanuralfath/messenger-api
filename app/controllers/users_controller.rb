@@ -43,6 +43,10 @@ class UsersController < ApplicationController
     end
   end
 
+  # Get /Me
+  def profile
+    render json: current_user
+  end
 
   private
 

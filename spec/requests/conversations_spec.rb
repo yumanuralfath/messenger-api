@@ -22,9 +22,7 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when user have conversations' do
       # TODOS: Populate database with conversation of current user
-
-      let!(:other_user) { create(:user) }
-      let!(:conversations) { create_list(:conversation, 5, user1: dimas, user2: other_user) }
+      let!(:conversations) { create_list(:conversation, 5, user1: dimas, user2: samid) }
 
       before do
         get '/conversations', params: {}, headers: dimas_headers
@@ -66,34 +64,33 @@ RSpec.describe 'Conversations API', type: :request do
       # TODO: create conversation of dimas
 
       # create a conversation for dimas
-      let!(:other_user) { create(:user) }
       let!(:convo_id) { conversation.id }
-      let!(:conversation) { create(:conversation, user1: dimas, user2: other_user) }
+      let!(:conversation) { create(:conversation, user1: dimas, user2: samid) }
       before { get "/conversations/#{convo_id}", params: {}, headers: dimas_headers }
 
       it 'returns conversation detail' do
         expect_response(
-          :ok,
-          data: {
-            id: Integer,
-            last_message: {
+            :ok,
+            {
               id: Integer,
-              sender: {
+              last_message: {
                 id: Integer,
-                name: String
+                sender: {
+                  id: Integer,
+                  name: String
+                },
+                sent_at: String
               },
-              sent_at: String
-            },
-            unread_count: Integer,
-            with_user: {
-              id: Integer,
-              name: String,
-              photo_url: String
+              unread_count: Integer,
+              with_user: {
+                id: Integer,
+                name: String,
+                photo_url: String
+              }
             }
-          }
-        )
+          )
+        end
       end
-    end
 
     context 'when current user access other user conversation' do
       let!(:other_user) { create(:user) }

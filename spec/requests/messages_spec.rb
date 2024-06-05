@@ -38,7 +38,7 @@ RSpec.describe 'Messages API', type: :request do
       # TODO: create conversation and set convo_id variable
       let!(:conversation) { create(:conversation, user1: samid, user2: agus) }
       let!(:convo_id) { conversation.id }
-      before { get "/conversations/#{convo_id}/messages", params: {}, headers: other_user_headers }
+      before { get "/conversations/#{convo_id}/messages", params: {}, headers: dimas_headers }
 
       it 'returns error 403' do
         expect(response).to have_http_status(403)

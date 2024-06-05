@@ -17,3 +17,6 @@ The challenge is to ensure that when you run `bundle exec rspec`, all results ar
 
 ## Test Results
 ![API Test Results](./HASIL%20TEST%20API.png)
+
+## Documentation
+For more detailed API documentation, visit the [Postman Documentation](https://documenter.getpostman.com/view/31220471/2sA3QzYT4U).

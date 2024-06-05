@@ -17,8 +17,10 @@ RSpec.describe 'Messages API', type: :request do
       before { get "/conversations/#{convo_id}/messages", params: {}, headers: dimas_headers }
 
       it 'returns list all messages in conversation' do
+
         expect_response(:ok)
-        expect(response_data).to all(match(
+        # change to response body instead response data change to json helper not help
+        expect(response_body).to all(match(
           id: a_kind_of(Integer),
           message: a_kind_of(String),
           sender: a_hash_including(

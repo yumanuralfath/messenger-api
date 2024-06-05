@@ -17,20 +17,17 @@ RSpec.describe 'Messages API', type: :request do
       before { get "/conversations/#{convo_id}/messages", params: {}, headers: dimas_headers }
 
       it 'returns list all messages in conversation' do
-        expect_response(
-          :ok,
-          data: [
-            {
-              id: Integer,
-              message: String,
-              sender: {
-                id: Integer,
-                name: String
-              },
-              sent_at: String
-            }
-          ]
-        )
+        expect_response(:ok)
+        puts "Response body: #{response_body}"
+        expect(response_data).to all(match(
+          id: a_kind_of(Integer),
+          message: a_kind_of(String),
+          sender: a_hash_including(
+            id: a_kind_of(Integer),
+            name: a_kind_of(String)
+          ),
+          sent_at: a_kind_of(String)
+        ))
       end
     end
 

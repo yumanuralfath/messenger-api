@@ -18,7 +18,6 @@ RSpec.describe 'Messages API', type: :request do
 
       it 'returns list all messages in conversation' do
         expect_response(:ok)
-        puts "Response body: #{response_body}"
         expect(response_data).to all(match(
           id: a_kind_of(Integer),
           message: a_kind_of(String),

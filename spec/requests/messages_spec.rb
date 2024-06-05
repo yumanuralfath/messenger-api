@@ -36,8 +36,8 @@ RSpec.describe 'Messages API', type: :request do
       # TODO: create conversation and set convo_id variable
       let!(:conversation) { create(:conversation, user1: samid, user2: agus) }
       let!(:convo_id) { conversation.id }
-      before { get "/conversations/#{convo_id}/messages", params: {}, headers: dimas_headers }
 
+      before { get "/conversations/#{convo_id}/messages", params: {}, headers: dimas_headers }
       it 'returns error 403' do
         expect(response).to have_http_status(403)
       end
@@ -67,24 +67,23 @@ RSpec.describe 'Messages API', type: :request do
     context 'when request attributes are valid' do
       before { post "/messages", params: valid_attributes, headers: dimas_headers, as: :json }
 
+      # change to response body instead response data change to json helper not help
       it 'returns status code 201 (created) and create conversation automatically' do
-        expect_response(
-          :created,
-          data: {
-            id: Integer,
-            message: String,
-            sender: {
-              id: Integer,
-              name: String
-            },
-            sent_at: String,
-            conversation: {
-              id: Integer,
-              with_user: {
-                id: Integer,
-                name: String,
-                photo_url: String
-              }
+        expect_response(:created)
+        expect(response_body).to match(
+          id: a_kind_of(Integer),
+          message: a_kind_of(String),
+          sender: {
+            id: a_kind_of(Integer),
+            name: a_kind_of(String)
+          },
+          sent_at: a_kind_of(String),
+          conversation: {
+            id: a_kind_of(Integer),
+            with_user: {
+              id: a_kind_of(Integer),
+              name: a_kind_of(String),
+              photo_url: a_kind_of(String)
             }
           }
         )

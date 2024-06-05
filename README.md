@@ -1,9 +1,19 @@
 # README
 
-The challenge is make sure when you run `bundle exec rspec`, all result is green (without error):) 
+The challenge is to ensure that when you run `bundle exec rspec`, all results are green (without errors). :)
 
 ## Version
 * Rails v6.1.7
 * Ruby v2.7.2
-* Database postgreSQL
-* Bundle v2.1.4
+* Database: PostgreSQL
+* Bundler v2.1.4
+
+## How to Run Tests
+1. Make sure you have PostgreSQL installed and running.
+2. Clone this repository to your local machine.
+3. Navigate to the project directory.
+4. Run `bundle install` to install dependencies.
+5. Run `bundle exec rspec` to run the tests.
+
+## Test Results
+![API Test Results](./HASIL%20TEST%20API.png)

@@ -64,6 +64,11 @@ RSpec.describe 'Conversations API', type: :request do
   describe 'GET /conversations/:id' do
     context 'when the record exists' do
       # TODO: create conversation of dimas
+
+      # create a conversation for dimas
+      let!(:other_user) { create(:user) }
+      let!(:convo_id) { conversation.id }
+      let!(:conversation) { create(:conversation, user1: dimas, user2: other_user) }
       before { get "/conversations/#{convo_id}", params: {}, headers: dimas_headers }
 
       it 'returns conversation detail' do
@@ -71,6 +76,15 @@ RSpec.describe 'Conversations API', type: :request do
           :ok,
           data: {
             id: Integer,
+            last_message: {
+              id: Integer,
+              sender: {
+                id: Integer,
+                name: String
+              },
+              sent_at: String
+            },
+            unread_count: Integer,
             with_user: {
               id: Integer,
               name: String,
@@ -82,6 +96,9 @@ RSpec.describe 'Conversations API', type: :request do
     end
 
     context 'when current user access other user conversation' do
+      let!(:other_user) { create(:user) }
+      let!(:convo_id) { conversation.id }
+      let!(:conversation) { create(:conversation, user1: dimas, user2: other_user) }
       before { get "/conversations/#{convo_id}", params: {}, headers: samid_headers }
 
       it 'returns status code 403' do

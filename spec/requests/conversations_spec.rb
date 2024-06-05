@@ -69,28 +69,26 @@ RSpec.describe 'Conversations API', type: :request do
       before { get "/conversations/#{convo_id}", params: {}, headers: dimas_headers }
 
       it 'returns conversation detail' do
-        expect_response(
-            :ok,
-            {
-              id: Integer,
-              last_message: {
-                id: Integer,
-                sender: {
-                  id: Integer,
-                  name: String
-                },
-                sent_at: String
-              },
-              unread_count: Integer,
-              with_user: {
-                id: Integer,
-                name: String,
-                photo_url: String
-              }
-            }
-          )
-        end
-      end
+      expect_response(:ok)
+      expect(response_body).to match(
+        id: a_kind_of(Integer),
+        with_user: a_hash_including(
+          id: a_kind_of(Integer),
+          name: a_kind_of(String),
+          photo_url: a_kind_of(String)
+        ),
+        last_message: a_hash_including(
+          id: a_kind_of(Integer),
+          sender: a_hash_including(
+            id: a_kind_of(Integer),
+            name: a_kind_of(String)
+          ),
+          sent_at: a_kind_of(String)
+        ),
+        unread_count: a_kind_of(Integer)
+      )
+    end
+  end
 
     context 'when current user access other user conversation' do
       let!(:other_user) { create(:user) }
